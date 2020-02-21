@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "hannah-workshop-app-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: hannah-workshop-app
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: yUnzdUVewhpIyQoUo3pZIvIznAdwZ51KkCCXs8T5bHrIgX8zsH48nXBIQEBW/+9Cn2YqgL/jK9jOx7jjFPjGreRrui1tFRBQTVZf91pFsG4jKFyu5ERsh32w+zMYH6yHsLRJSNIl4ifEDh8Vk+BOS6xui8feyJMLzxlzvzI+AxYj8pMbm0U2ek/ZOm49IqMvGoBtt1svJOAElv6B6A2hSefZDr8S5gKt8MFsewIxwrbYHw78WXMR7GKMKjVN4OGPZIgnCNDqE/cEp2Uvi0mr6Z0ICfE1F3CWMcgj4wPZs35fOsA0l/kqmvjI1e/lx9BwF+JXVLmIXRWM6lA25jq/5dqRGhCa7Xx4zLzVBW5hwkgTJGjzaXEPyNgN3GOxwBw8359jsQHl0vutwVgb1Jb7Bgm4JI37o9+q1fMvNYydIRd2QdEgd3h+XnNYS2/WlHPRRBRdDqZQbl1JR3M1wqizfhYW/02rSln+BFXFTgxrMds4QPnN6JbqCnFHtLclHcwpM5063dDnk+0qeCIrLcf3SRlR1Nw2zhracgbIU0fSV7uv6YhlhXUFq5k+50TaS884c2MsrXjZUSOuGm6Sqe+DR6D/UK8PlbAB4UFE5tyvP5uSqnqOp7FU1Nk5Bvl5JrtBQx5yu9qWyzRtHB2huxiUjpS5PLUM4mTtdvlbS26jjy8=
